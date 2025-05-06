@@ -22,9 +22,9 @@ requirements:
   build:
     - cmake
     - make  # [not win]
-    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
+    - patch # [linux]
   host:
 
 test:
@@ -41,11 +41,16 @@ test:
     - if not exist %LIBRARY_BIN%\\mbedtls.dll exit 1  # [win]
 
 about:
-  home: https://tls.mbed.org/
+  home: https://www.trustedfirmware.org/projects/mbed-tls/
   dev_url: https://github.com/Mbed-TLS/mbedtls
+  doc_url: https://mbed-tls.readthedocs.io/
   license: Apache-2.0
+  license_family: Apache
   license_file: LICENSE
   summary: An open source, portable, easy to use, readable and flexible SSL library
+  description: |
+    An open source, portable, easy to use, readable and flexible TLS library, 
+    and reference implementation of the PSA Cryptography API.
 
 extra:
   recipe-maintainers:
