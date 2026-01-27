@@ -1,0 +1,40 @@
+From 51b99642f5ac8cfe75c415b8a3ad45adba5a95c7 Mon Sep 17 00:00:00 2001
+From: Eric Lundby <Eric.Lundby@gmail.com>
+Date: Tue, 27 Jan 2026 16:52:13 -0700
+Subject: [PATCH 1/1] fix-neon-on-win-arm64
+
+---
+ library/aesce.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/library/aesce.c b/library/aesce.c
+index f2bdce2db7..48018bb47c 100644
+--- a/library/aesce.c
++++ b/library/aesce.c
+@@ -27,6 +27,14 @@
+ #define MBEDTLS_ENABLE_ARM_CRYPTO_EXTENSIONS_COMPILER_FLAG
+ #endif
+ 
++/* MSVC for ARM64 has AES crypto intrinsics always available in arm64_neon.h,
++ * but doesn't define the ACLE feature macros. Define them to satisfy later checks.
++ */
++#if defined(_M_ARM64) && !defined(__ARM_FEATURE_CRYPTO) && defined(_MSC_VER)
++#define __ARM_FEATURE_CRYPTO 1
++#define __ARM_FEATURE_AES    1
++#endif
++
+ #include <string.h>
+ #include "common.h"
+ 
+@@ -54,7 +62,7 @@
+ #   endif
+ #endif
+ 
+-#ifdef __ARM_NEON
++#if defined(__ARM_NEON) || defined(_M_ARM64)
+ #include <arm_neon.h>
+ #else
+ #error "Target does not support NEON instructions"
+-- 
+2.50.1 (Apple Git-155)
+

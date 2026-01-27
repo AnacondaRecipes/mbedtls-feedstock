@@ -9,7 +9,10 @@ source:
   url: https://github.com/Mbed-TLS/mbedtls/archive/refs/tags/v{{ version }}.tar.gz
   sha256: 2597419f1a4a79dd28e6f5edc5180aff7e83bd85548437e07dcf9f808ceccb76
   patches:
-    - fix_missing_clock_boottime.patch  # [linux]
+    - patches/0001-fix_missing_clock_boottime.patch  # [linux]
+    - patches/0002-fix-neon-on-win-arm64.patch  # [win and arm64]
+    - patches/0003-fix-size_t-error.patch  # [win and arm64]
+
 
 build:
   number: 1

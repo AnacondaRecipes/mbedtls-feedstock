@@ -1,0 +1,25 @@
+From 87e72d4cdad876ffd3f0522c459c0864a2ce6ea4 Mon Sep 17 00:00:00 2001
+From: Eric Lundby <Eric.Lundby@gmail.com>
+Date: Tue, 27 Jan 2026 16:56:04 -0700
+Subject: [PATCH 1/1] fix-size_t-error
+
+---
+ library/aesce.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/library/aesce.c b/library/aesce.c
+index 48018bb47c..78195907e5 100644
+--- a/library/aesce.c
++++ b/library/aesce.c
+@@ -295,7 +295,7 @@ static void aesce_setkey_enc(unsigned char *rk,
+      *   - Section 5, Nr = Nk + 6
+      *   - Section 5.2, the length of round keys is Nb*(Nr+1)
+      */
+-    const uint32_t key_len_in_words = key_bit_length / 32;  /* Nk */
++    const uint32_t key_len_in_words = (uint32_t) (key_bit_length / 32);  /* Nk */
+     const size_t round_key_len_in_words = 4;                /* Nb */
+     const size_t rounds_needed = key_len_in_words + 6;      /* Nr */
+     const size_t round_keys_len_in_words =
+-- 
+2.50.1 (Apple Git-155)
+
