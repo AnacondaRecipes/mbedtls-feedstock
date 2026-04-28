@@ -1,13 +1,8 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-:: Setup directory structure
-mkdir build
-cd build
-if errorlevel 1 exit 1
-
 :: Configure 
-cmake -G "NMake Makefiles" ^
+cmake -B build -G "NMake Makefiles" -S %SRC_DIR% ^
          "%CMAKE_ARGS%" ^
          -DCMAKE_BUILD_TYPE=Release ^
          -DCMAKE_C_COMPILER=cl ^
@@ -17,10 +12,10 @@ cmake -G "NMake Makefiles" ^
          -DCMAKE_VERBOSE_MAKEFILE=ON ^
          -DUSE_SHARED_MBEDTLS_LIBRARY=ON ^
          -DENABLE_PROGRAMS=OFF ^
-         -DENABLE_TESTING=OFF ^
-         ..
+         -DENABLE_TESTING=OFF
 if errorlevel 1 exit 1
 
+cd build
 :: Build and install
 nmake
 if errorlevel 1 exit 1
